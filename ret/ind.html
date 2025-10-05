@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ta">
+<head>
+  <link rel="stylesheet" href="../responsive_assets/responsive.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TERRA D.T.C – Loop + Pause</title>
+<style>
+  :root{
+    --draw-time: 3s;      /* draw duration */
+    --pause-ms: 1200;     /* pause time (ms) */
+  }
+  body{display:grid;place-items:center;height:100vh;background:#fff}
+  #terra-logo{width:min(70vmin,520px)}
+  #terra-logo.paused *{animation-play-state:paused!important}
+
+  /* stroke draw */
+  .piece path{
+    stroke-dasharray: var(--len,600);
+    stroke-dashoffset: var(--len,600);
+    animation: draw var(--draw-time) linear forwards;
+  }
+  #frame rect{
+    --len:1600;
+    stroke-dasharray:var(--len);
+    stroke-dashoffset:var(--len);
+    animation: draw var(--draw-time) linear forwards;
+  }
+
+  /* text fade */
+  #wordmark text,#submark text{
+    opacity:0;
+    animation: fade .6s ease forwards;
+    animation-delay: calc(var(--draw-time) - 1s);
+  }
+
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fade{to{opacity:1}}
+</style>
+</head>
+<body>
+<svg id="terra-logo" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B10F7A"/>
+      <stop offset="1" stop-color="#FF7A59"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Diamond -->
+  <g id="frame" class="piece">
+    <rect x="76" y="76" width="360" height="360" rx="52" ry="52"
+      fill="none" stroke="url(#grad)" stroke-width="18"
+      transform="rotate(45 256 256)"/>
+  </g>
+  <!-- Buildings -->
+  <g class="piece" stroke="url(#grad)" stroke-width="14" fill="none"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M180 360V208l38-28v180"/>
+    <path d="M256 384V128h70v104"/>
+    <path d="M332 352V232l36-28v144"/>
+  </g>
+  <!-- Horizon -->
+  <g class="piece">
+    <path d="M120 392c84-28 188-28 272 0"
+          fill="none" stroke="url(#grad)" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <!-- Text -->
+  <g id="wordmark" class="piece" font-family="Arial" font-weight="700" text-anchor="middle">
+    <text x="256" y="440" font-size="48" fill="#B10F7A">TERRA</text>
+  </g>
+  <g id="submark" class="piece" font-family="Arial" font-weight="700" text-anchor="middle">
+    <text x="256" y="476" font-size="26" fill="#B10F7A">D.T.C</text>
+  </g>
+</svg>
+
+<script>
+/* dash length calc */
+document.querySelectorAll('#terra-logo path').forEach(p=>{
+  const len=p.getTotalLength();
+  p.style.setProperty('--len',len.toFixed(2));
+  p.style.strokeDasharray=len;
+  p.style.strokeDashoffset=len;
+});
+
+const svg=document.getElementById('terra-logo');
+const frame=svg.querySelector('#frame rect');
+
+/* restart animations in loop with pause */
+function restartAnimations(){
+  svg.classList.remove('paused');
+  svg.querySelectorAll('.piece path,#wordmark text,#submark text').forEach(el=>{
+    el.style.animation='none';
+    el.offsetHeight; // reflow
+    if(el.tagName==='path')
+      el.style.animation=`draw var(--draw-time) linear forwards`;
+    else
+      el.style.animation=`fade .6s ease forwards`;
+  });
+}
+
+frame.addEventListener('animationend',()=>{
+  svg.classList.add('paused');
+  setTimeout(()=>restartAnimations(),
+    parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pause-ms')));
+});
+
+/* dash length calc */
+document.querySelectorAll('#terra-logo path').forEach(p=>{
+  const len=p.getTotalLength();
+  p.style.setProperty('--len',len.toFixed(2));
+  p.style.strokeDasharray=len;
+  p.style.strokeDashoffset=len;
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const svg = document.getElementById('terra-logo');
+  const frame = svg.querySelector('#frame rect');
+  console.log(svg, frame);
+});
+
+
+
+/* restart animations in loop with pause */
+function restartAnimations(){
+  svg.classList.remove('paused');
+  svg.querySelectorAll('.piece path,#wordmark text,#submark text').forEach(el=>{
+    el.style.animation='none';
+    el.offsetHeight; // reflow
+    if(el.tagName==='path')
+      el.style.animation=`draw var(--draw-time) linear forwards`;
+    else
+      el.style.animation=`fade .6s ease forwards`;
+  });
+}
+
+frame.addEventListener('animationend',()=>{
+  svg.classList.add('paused');
+  setTimeout(()=>{
+    
+    window.location.href = "index.html";  
+  }, parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pause-ms')));
+});
+
+
+function setupDash() {
+  document.querySelectorAll('#terra-logo path').forEach(p=>{
+    const len = p.getTotalLength();
+    p.style.setProperty('--len', len.toFixed(2));
+    p.style.strokeDasharray = len;
+    p.style.strokeDashoffset = len;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const svg = document.getElementById('terra-logo');
+  const frame = svg.querySelector('#frame rect');
+  console.log(svg, frame);
+});
+
+function startAnimations() {
+  svg.classList.remove('paused');
+  // clear previous animations and re-apply
+  svg.querySelectorAll('.piece path,#wordmark text,#submark text').forEach(el=>{
+    el.style.animation = 'none';
+    // reset to start
+    if (el.tagName === 'path') {
+      const len = parseFloat(getComputedStyle(el).getPropertyValue('--len')) || el.getTotalLength();
+      el.style.strokeDashoffset = len;
+    } else {
+      el.style.opacity = 0;
+    }
+    // reflow then animate
+    void el.offsetWidth;
+    el.style.animation = (el.tagName === 'path')
+      ? `draw var(--draw-time) linear forwards`
+      : `fade .6s ease forwards`;
+  });
+}
+
+function restartLoopAfterPause() {
+  svg.classList.add('paused');
+  const pauseMs = parseInt(
+    getComputedStyle(document.documentElement).getPropertyValue('--pause-ms')
+  );
+  setTimeout(startAnimations, pauseMs);
+}
+
+/* Initial attach */
+document.addEventListener('DOMContentLoaded', () => {
+  setupDash();
+  startAnimations();
+  frame.addEventListener('animationend', restartLoopAfterPause);
+});
+
+/* If page is restored from BFCache, reset and start again */
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    setupDash();
+    startAnimations();
+  }
+});
+
+/* Optional: ensure we don't keep paused state on navigate away */
+window.addEventListener('pagehide', () => {
+  svg.classList.remove('paused');
+});
+
+
+</script>
+</body>
+</html>

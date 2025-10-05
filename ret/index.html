@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>TERRA Decoration Trading & Contracting</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="../responsive_assets/responsive.css">
+
+  <style>
+    /* ---------- GLOBAL / CONTAINER ---------- */
+    .max-w-\[2040px\]{ max-width:2040px; } /* cap but stay fluid */
+    body { background:#f9fafb; color:#111827; }
+
+    /* ---------- HERO VIDEO ---------- */
+    .hero-video-panel video { width:100%; height:100%; object-fit:cover; }
+    .hero-overlay { position:absolute; inset:0; background:rgba(0,0,0,.30); }
+
+    /* ---------- WHATSAPP ---------- */
+    .whatsapp-icon {
+      position: fixed; bottom: 20px; right: 20px;
+      opacity: 0; transition: opacity .3s ease; z-index: 1000;
+    }
+    .whatsapp-icon.visible { opacity: 1; }
+
+    /* ---------- DIAMONDS ---------- */
+    .diamond {
+      transition: background-color .45s ease, transform .45s ease, box-shadow .45s ease, color .45s ease;
+      position: relative; z-index: 0;
+    }
+    .diamond.active {
+      background-color:#1a2752; color:#fff;
+      transform: rotate(45deg) scale(1.06);
+      box-shadow: 0 24px 40px -16px rgba(5,150,105,.35);
+      z-index:10;
+    }
+
+    /* ---------- NAVBAR ---------- */
+    #navbar { background: transparent; backdrop-filter: none; }
+    #navbar.scrolled { background: #fff; box-shadow:0 2px 6px rgba(0,0,0,.08); }
+    /* link color swap */
+    #navbar .nav-link, #navbar .brand-text, #navbar .hamburger {
+      color:#fff;
+      transition: color .25s ease, border-color .25s ease, background-color .25s ease;
+    }
+    #navbar.scrolled .nav-link, #navbar.scrolled .brand-text, #navbar.scrolled .hamburger {
+      color:#1f2937;
+    }
+    /* CTA swap */
+    #navbar .get-quote {
+      background:transparent; color:#fff; border:1px solid rgba(255,255,255,.6);
+    }
+    #navbar.scrolled .get-quote {
+      background:#1a2752; color:#fff; border-color:#1a2752;
+    }
+
+    /* mobile slide-over helpers */
+    .menu-open #mobileMenu { transform: translateX(0); }
+    .menu-open #menuBackdrop { opacity:1; pointer-events:auto; }
+
+    /* tiny phones */
+    @media (max-width:380px){ terra-logo { width:60px !important; } }
+   
+
+/* 1) STOP SIDE SCROLL (globally) */
+html, body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }
+
+/* 2) MOBILE-ONLY TWEAKS */
+@media (max-width: 768px) {
+  /* Make hero video occupy full hero area on mobile */
+  .hero-video-panel {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-video-panel video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Hide the left black block + seam blender that was covering video */
+  #home > div.bg-gradient-to-b { display: none !important; }
+  #home > div.bg-gradient-to-r { display: none !important; }
+
+  /* 3) Add a center black "shadow line" over the video (mobile only) */
+  .hero-video-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Darkest at middle (50%), fades to transparent both sides */
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0,0,0,0.65) 50%,
+      transparent 100%
+    );
+    pointer-events: none; /* don't block taps */
+  }
+
+  /* Optional: if the center line looks too wide, use a narrow blurred strip instead.
+     Uncomment below and comment-out the gradient above. */
+  
+  .hero-video-panel::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;                /* thickness of the line */
+    background: rgba(0,0,0,0.55);
+    filter: blur(10px);          /* soft edges = "ease line" effect */
+    pointer-events: none;
+  }
+  */
+
+  /* Slightly stronger overlay for text readability (optional) */
+  .hero-overlay { background: rgba(0,0,0,0.40); }
+}
+
+/* Safety: prevent child sections from pushing width > 100% */
+section, header, footer { width: 100%; max-width: 100%; }
+img, video, iframe { max-width: 100%; height: auto; }
+</style>
+
+
+
+
+  </style>
+
+  <script type="module" src="terra-logo.js"></script>
+</head>
+<body class="font-sans">
+
+  <!-- ===== NAVBAR (RESPONSIVE) ===== -->
+  <header id="navbar" class="fixed top-0 w-full z-50 transition-colors duration-500">
+    <div class="mx-auto max-w-[2040px] px-4 sm:px-6">
+      <div class="h-16 md:h-20 flex items-center justify-between">
+        <!-- Left: Logo -->
+        <a href="ind.html" class="flex items-center gap-3 h-full">
+          <terra-logo style="width:72px; height:auto;" draw-time="3s" pause-ms="1200"></terra-logo>
+          <span class="text-xl md:text-2xl font-extrabold tracking-wide 
+                   bg-gradient-to-b from-[#a28255] to-[#d1b180] 
+                   bg-clip-text text-transparent">
+            TERRA
+          </span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden md:flex gap-8 font-medium">
+          <a href="#about"        class="nav-link hover:text-[#a28255]">About</a>
+          <a href="#services"     class="nav-link hover:text-[#a28255]">Services</a>
+          <a href="#projects-wrapper"     class="nav-link hover:text-[#a28255]">Projects</a>
+          <a href="#testimonials" class="nav-link hover:text-[#a28255]">Testimonials</a>
+          <a href="#footer"       class="nav-link hover:text-[#a28255]">Contact</a>
+        </nav>
+
+        <!-- Right: CTA (desktop) -->
+        <a href="mailto:info@terradtc.com" class="get-quote hidden md:inline-flex px-5 py-2 rounded-lg shadow font-semibold transition">
+          Get Quote
+        </a>
+
+        <!-- Mobile: Hamburger -->
+        <button id="menuToggle"
+                class="hamburger md:hidden inline-flex items-center justify-center p-2 rounded-lg border border-white/60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1a2752]"
+                aria-controls="mobileMenu" aria-expanded="false" aria-label="Open menu">
+          <svg id="iconOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="iconClose" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Slide-over Menu -->
+    <div id="mobileMenu"
+     class="fixed inset-y-0 right-0 w-56 max-w-[50vw] translate-x-full md:hidden
+            bg-white shadow-2xl rounded-l-2xl transition-transform duration-300 z-[100]">
+
+      <div class="h-16 flex items-center px-4 border-b">
+        <span class="font-semibold">Menu</span>
+      </div>
+      <nav class="flex flex-col gap-1 p-4 text-gray-800">
+        <a href="#about"        class="block px-3 py-3 rounded-lg hover:bg-gray-100">About</a>
+        <a href="#services"     class="block px-3 py-3 rounded-lg hover:bg-gray-100">Services</a>
+        <a href="#projects-wrapper"     class="block px-3 py-3 rounded-lg hover:bg-gray-100">Projects</a>
+        <a href="#testimonials" class="block px-3 py-3 rounded-lg hover:bg-gray-100">Testimonials</a>
+        <a href="#footer"       class="block px-3 py-3 rounded-lg hover:bg-gray-100">Contact</a>
+        <a href="info@terradtc.com"      class="mt-2 inline-flex justify-center px-4 py-3 rounded-lg bg-[#1a2752] text-white font-semibold">
+          Get Quote
+        </a>
+      </nav>
+    </div>
+
+    <!-- Backdrop -->
+    <div id="menuBackdrop"
+         class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden z-[90]"></div>
+  </header>
+
+  <!-- ===== HERO (text left + video right) ===== -->
+  <section id="home" class="relative h-[88vh] md:h-screen overflow-hidden">
+    <!-- Right: Video panel -->
+    <div class="hero-video-panel absolute inset-y-0 right-0 w-full md:w-1/2">
+      <video id="heroVideo" autoplay muted playsinline loop poster="poster.jpg" class="w-full h-full object-cover">
+        <source src="collapse.webm" type="video/webm" />
+        <source src="collapse.mp4"  type="video/mp4"  />
+      </video>
+      <div class="hero-overlay"></div>
+    </div>
+
+    <!-- Left: solid gradient -->
+    <div class="absolute inset-y-0 left-0 w-full md:w-1/2 bg-gradient-to-b from-black to-black"></div>
+
+    <!-- Seam blender -->
+    <div class="absolute inset-y-0 md:left-1/2 left-[48%]
+                w-28 md:w-40 z-20 pointer-events-none
+                bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+
+    <!-- Left: text -->
+    <div class="relative z-10 h-full flex items-center md:justify-start justify-center text-left text-white px-6 md:px-16">
+      <div class="max-w-xl w-full md:w-[44vw]">
+        <h2 class="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg">
+          Building Spaces,<br/>Creating Dreams
+        </h2>
+        <p class="mt-6 text-lg opacity-95">
+          High-quality interior design, contracting & decorative solutions for commercial and residential projects.
+        </p>
+        <a href="#projects"
+           class="mt-8 inline-block px-6 py-3 rounded-lg shadow-lg backdrop-blur-md bg-white/20 border border-white/30 text-white font-semibold hover:bg-white/30 hover:scale-105 transition">
+          Explore Our Work
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section id="about" class="max-w-6xl mx-auto px-6 py-20 text-center">
+    <h3 class="text-3xl font-bold bg-gradient-to-b from-[#a28255] to-[#d1b180] bg-clip-text text-transparent" data-aos="fade-down">
+      About Us
+    </h3>
+    <p class="mt-6 text-gray-600 leading-relaxed max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+      With years of experience, TERRA delivers excellence in construction, interior design, and trading of
+      quality materials. Our mission is to transform spaces into elegant, functional, and modern environments.
+    </p>
+  </section>
+
+  <!-- WhatsApp Icon -->
+  <a href="https://wa.me/97431301602" target="_blank" class="whatsapp-icon">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="w-12 h-12">
+  </a>
+
+  <!-- ===== Services ===== -->
+  <section id="services" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Left: Title -->
+      <div class="text-left">
+        <h3 class="text-4xl md:text-5xl font-extrabold bg-gradient-to-b from-[#a28255] to-[#d1b180] bg-clip-text text-transparent" data-aos="fade-down">
+          Our Services
+        </h3>
+        <p class="mt-4 text-gray-600 max-w-md" data-aos="fade-down">
+          We design, build, and deliver elegant, functional spaces—end-to-end.
+        </p>
+      </div>
+
+      <!-- Right: 7-diamond honeycomb -->
+      <div class="relative flex justify-center">
+        <div id="diamondGrid" class="grid grid-cols-5 grid-rows-3 gap-10">
+          <!-- Row 1 -->
+          <div class="col-start-2 row-start-1">
+            <div class="diamond relative w-32 h-32 md:w-36 md:h-36 rotate-45 bg-gray-100 shadow-xl">
+              <div class="absolute inset-0 -rotate-45 flex items-center justify-center text-center p-3">
+                <div>
+                  <h4 class="font-semibold">Design</h4>
+                  <p class="text-sm opacity-70 mt-1">Concept to detail</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-start-3 row-start-1">
+            <div class="diamond relative w-32 h-32 md:w-36 md:h-36 rotate-45 bg-gray-100 shadow-xl">
+              <div class="absolute inset-0 -rotate-45 flex items-center justify-center text-center p-3">
+                <div>
+                  <h4 class="font-semibold">Consultation</h4>
+                  <p class="text-sm opacity-70 mt-1">Expert guidance</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-start-4 row-start-1">
+            <div class="diamond relative w-32 h-32 md:w-36 md:h-36 rotate-45 bg-gray-100 shadow-xl">
+              <div class="absolute inset-0 -rotate-45 flex items-center justify-center text-center p-3">
+                <div>
+                  <h4 class="font-semibold">Supervision</h4>
+                  <p class="text-sm opacity-70 mt-1">Quality &amp; timeline</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Row 2 -->
+          <div class="col-start-2 row-start-2">
+            <div class="diamond relative w-32 h-32 md:w-36 md:h-36 rotate-45 bg-gray-100 shadow-xl">
+              <div class="absolute inset-0 -rotate-45 flex items-center justify-center text-center p-3">
+                <div>
+                  <h4 class="font-semibold">Interior</h4>
+                  <p class="text-sm opacity-70 mt-1">Elegant spaces</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- center -->
+          <div class="col-start-3 row-start-2">
+            <div class="diamond active relative w-32 h-32 md:w-36 md:h-36 rotate-45 bg-gray-100 shadow-2xl">
+              <div class="absolute inset-0 -rotate-45 flex items-center justify-center text-center p-3">
+                <div>
+                  <h4 class="font-semibold">Turnkey</h4>
+                  <p class="text-sm mt-1 opacity-90">End-to-end delivery</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-start-4 row-start-2">
+            <div class="diamond relative w-32 h-32 md:w-36 md:h-36 rotate-45 bg-gray-100 shadow-xl">
+              <div class="absolute inset-0 -rotate-45 flex items-center justify-center text-center p-3">
+                <div>
+                  <h4 class="font-semibold">Landscape</h4>
+                  <p class="text-sm opacity-70 mt-1">Outdoor beauty</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Row 3 -->
+          <div class="col-start-3 row-start-3">
+            <div class="diamond relative w-32 h-32 md:w-36 md:h-36 rotate-45 bg-gray-100 shadow-xl">
+              <div class="absolute inset-0 -rotate-45 flex items-center justify-center text-center p-3">
+                <div>
+                  <h4 class="font-semibold">Supply</h4>
+                  <p class="text-sm opacity-70 mt-1">Materials &amp; products</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <style>
+/* ---- diamond colors ---- */
+
+/* default diamond look */
+#diamondGrid .diamond {
+  background-color: #ffffff;       /* white base */
+  color: #111827;                  /* black text */
+  transition: all .45s ease;
+}
+
+/* add a subtle shadow */
+#diamondGrid .diamond:not(.active) {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+/* when active, change background + text color */
+#diamondGrid .diamond.active {
+  background-color: #1a2752 !important; /* dark navy */
+  color: #ffffff !important;            /* white text */
+  box-shadow: 0 24px 40px -16px rgba(26,39,82,0.45);
+  transform: rotate(45deg) scale(1.06);
+}
+
+/* optional: hover effect for non-active diamonds */
+#diamondGrid .diamond:not(.active):hover {
+  background-color: #f3f4f6;  /* light gray */
+  transform: rotate(45deg) scale(1.03);
+}
+/* ---- MOBILE ONLY (≤640px) ---- */
+@media (max-width:640px){
+  /* spacing/size (optional but safe for mobile) */
+  #diamondGrid{
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    place-items: center;
+    width: min(92vw, 420px);
+    margin: 0 auto;
+  }
+  #diamondGrid .diamond{
+    width: 88px !important;
+    height: 88px !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,.10);
+  }
+
+  /* active tile: NO extra zoom on phones */
+  #diamondGrid .diamond.active{
+    transform: rotate(45deg) scale(1) !important;
+    box-shadow: 0 16px 28px -10px rgba(0,0,0,.15);
+  }
+
+  /* responsive text (only on mobile) */
+  #diamondGrid .diamond h4{
+    font-size: clamp(12px, 3.6vw, 16px);
+    line-height: 1.2;
+    text-align: center;
+  }
+  #diamondGrid .diamond p{
+    font-size: clamp(10px, 2.8vw, 14px);
+    line-height: 1.35;
+    text-align: center;
+    word-break: break-word;
+    opacity: .9;
+  }
+  #diamondGrid .diamond .absolute{
+    padding: 6px 8px;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+}
+
+</style>
+
+
+    <!-- diamond loop animation -->
+    <script>
+      (function () {
+        const diamonds = document.querySelectorAll('#diamondGrid .diamond');
+        let dIdx = Array.from(diamonds).findIndex(el => el.classList.contains('active'));
+        if (dIdx < 0) dIdx = 0;
+
+        function step(to){
+          diamonds[dIdx].classList.remove('active');
+          dIdx = (to + diamonds.length) % diamonds.length;
+          diamonds[dIdx].classList.add('active');
+        }
+
+        // order across the honeycomb
+        const order = [0,1,2,5,6,3,4];
+        let ptr = order.indexOf(dIdx); if (ptr < 0) ptr = 0;
+
+        setInterval(() => { ptr = (ptr + 1) % order.length; step(order[ptr]); }, 2000);
+      })();
+    </script>
+  </section>
+
+  <!-- ===== Projects (iframe) ===== -->
+ <section id="projects-wrapper">
+  <iframe src="pr.html"
+          style="width:100%; height:600px; border:0; overflow:hidden;"
+          title="Projects section"
+          loading="lazy"
+          scrolling="no"></iframe>
+</section>
+
+
+  <!-- ===== Testimonials ===== -->
+  <section id="testimonials" class="bg-gray-100 py-20">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h3 class="text-3xl font-bold bg-gradient-to-b from-[#a28255] to-[#d1b180] bg-clip-text text-transparent" data-aos="fade-down">
+        What Our Clients Say
+      </h3>
+      <div class="grid md:grid-cols-2 gap-10 mt-12">
+        <div class="bg-white p-8 rounded-2xl shadow-lg" data-aos="fade-right">
+          <p class="text-gray-600 italic">“TERRA transformed our office into a modern, inspiring space. Their attention to detail is unmatched!”</p>
+          <h4 class="mt-4 font-semibold text-emerald-700">— Sarah, Business Owner</h4>
+        </div>
+        <div class="bg-white p-8 rounded-2xl shadow-lg" data-aos="fade-left">
+          <p class="text-gray-600 italic">“The team was professional and reliable. We love our new home interior, it feels luxurious yet comfortable.”</p>
+          <h4 class="mt-4 font-semibold text-emerald-700">— Ahmed, Homeowner</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer placeholder ===== -->
+  <div id="footer"></div>
+
+  <!-- ===== JS (ONE place, no duplicates) ===== -->
+  <script>
+    // Load footer
+    fetch("footer.html")
+      .then(r=>r.text())
+      .then(html=>{
+        document.getElementById("footer").innerHTML = html;
+        const yearSpan = document.getElementById("year");
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+      })
+      .catch(err => console.error("Error loading footer:", err));
+
+    // Hero video autoplay & pause when offscreen
+    (function(){
+      const vid = document.getElementById('heroVideo');
+      if (!vid) return;
+      vid.play().catch(()=>{});
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if (e.isIntersecting) { vid.play().catch(()=>{}); }
+          else { vid.pause(); vid.currentTime = 0; }
+        });
+      }, { threshold: 0.6 });
+      io.observe(vid);
+      window.addEventListener('click', ()=>vid.play().catch(()=>{}), { once:true });
+      window.addEventListener('touchstart', ()=>vid.play().catch(()=>{}), { once:true });
+    })();
+
+    // Navbar scroll color swap
+    (function () {
+      const navbar = document.getElementById('navbar');
+      function onScroll(){ (window.scrollY > 50) ? navbar.classList.add('scrolled')
+                                                : navbar.classList.remove('scrolled'); }
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive:true });
+    })();
+
+    // Mobile menu toggle (no conflicts)
+    (function () {
+      const html = document.documentElement;
+      const toggle = document.getElementById('menuToggle');
+      const menu = document.getElementById('mobileMenu');
+      const backdrop = document.getElementById('menuBackdrop');
+      const iconOpen = document.getElementById('iconOpen');
+      const iconClose = document.getElementById('iconClose');
+
+      const openMenu = () => {
+        html.classList.add('menu-open','overflow-hidden');
+        toggle?.setAttribute('aria-expanded','true');
+        iconOpen?.classList.add('hidden');
+        iconClose?.classList.remove('hidden');
+      };
+      const closeMenu = () => {
+        html.classList.remove('menu-open','overflow-hidden');
+        toggle?.setAttribute('aria-expanded','false');
+        iconOpen?.classList.remove('hidden');
+        iconClose?.classList.add('hidden');
+      };
+      const isOpen = () => html.classList.contains('menu-open');
+
+      toggle?.addEventListener('click', () => isOpen() ? closeMenu() : openMenu());
+      backdrop?.addEventListener('click', closeMenu);
+      window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && isOpen()) closeMenu(); });
+      menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    })();
+
+    // WhatsApp show after scroll
+    (function(){
+      const whatsappIcon = document.querySelector('.whatsapp-icon');
+      if (!whatsappIcon) return;
+      const onScroll = () => {
+        (window.scrollY > 100) ? whatsappIcon.classList.add('visible')
+                               : whatsappIcon.classList.remove('visible');
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive:true });
+    })();
+  </script>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init({ duration:1000, once:false });</script>
+</body>
+</html>

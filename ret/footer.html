@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="../responsive_assets/responsive.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terra Footer</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  :root{
+    --brand:#8f1a23;       /* maroon red from reference */
+    --fg:#ffffff;
+    --muted:#cfcfcf;
+    --divider:#b9b9b955;
+  }
+
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#111;color:var(--fg);}
+
+  /* ---------- FOOTER ---------- */
+  footer.site-footer{
+    position:relative;
+    color:var(--fg);
+    background:url("bg2.jpg") center/cover no-repeat; /* ⬅ replace with your image */
+    padding:32px 0 0;
+    overflow:hidden;
+  }
+  /* dark overlay for readability */
+  footer.site-footer::before{
+    content:"";position:absolute;inset:0;background:rgba(0,0,0,.80);z-index:0;
+  }
+  .wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- TOP INFO CARDS ---------- */
+ /* Top info cards */
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  margin: 12px 0 28px;
+}
+
+.card {
+  background: #121111;               /* 🔥 changed to white */
+  padding: 22px 24px;
+  border-radius: 12px;            /* round corners */
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.15); /* subtle shadow */
+  color: #000;                    /* text in black */
+}
+
+.card i {
+  font-size: 28px;
+  color: #1e90ff;                 /* icon in blue (or your brand color) */
+}
+
+.card h4 {
+  margin: 0 0 6px 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f3eded;
+}
+
+.card p, 
+.card a {
+  margin: 0;
+  font-size: .92rem;
+  line-height: 1.5;
+  color: #ede5e5;                    /* darker text */
+  text-decoration: none;
+}
+
+  /* ---------- MAIN ROW (About / Links / Map) ---------- */
+  .footer-grid{
+    display:grid;grid-template-columns: 1.2fr .8fr 1fr;gap:48px;align-items:start;
+    padding:16px 0 26px;border-top:1px solid transparent; /* just spacing helper */
+  }
+  .footer-grid h3{
+    font-size:1.4rem;margin:6px 0 14px;font-weight:700;letter-spacing:.2px;
+  }
+  .about p{
+    color:var(--muted);line-height:1.8;font-size:.98rem;max-width:48ch;
+  }
+  .links ul{list-style:none;margin:0;padding:0}
+  .links li{margin:10px 0}
+  .links a{color:var(--fg);text-decoration:none;opacity:.9}
+  .links a:hover{opacity:1;text-decoration:underline}
+  .map iframe{
+    width:100%;height:210px;border:0;border-radius:6px;filter:contrast(95%) brightness(95%);
+  }
+
+  /* ---------- DOTTED DIVIDER + SOCIAL ---------- */
+ /* dotted divider */
+/* dotted divider */
+.divider {
+  margin: 36px auto 20px;   /* bottom margin creates space before icons */
+  border-top: 2px dotted var(--divider);
+  height: 0;
+  max-width: 1160px;
+}
+
+/* social icons row */
+.social {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 0 auto 10px;      /* no negative margin → icons stay below line */
+}
+
+
+ .social a {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff;          /* white background */
+  color: #000;               /* black icon (you can use your brand color) */
+  text-decoration: none;
+
+  box-shadow: 0 3px 10px rgba(0,0,0,.25);
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+}
+
+.social a:hover {
+  background: #1e90ff;       /* hover color */
+  color: #fff;               /* icon turns white on hover */
+  transform: translateY(-2px);
+}
+
+
+  /* ---------- BOTTOM BAR ---------- */
+  .bottom{
+    display:flex;align-items:center;justify-content:space-between;
+    color:#aaa;font-size:.9rem;padding:10px 0 18px;
+  }
+  .bottom img{height:22px;vertical-align:middle;opacity:.95}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1000px){
+    .footer-grid{grid-template-columns:1fr 1fr;gap:28px}
+    .map{grid-column:span 2}
+  }
+  @media (max-width:720px){
+    .info-cards{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr}
+    .map{grid-column:auto}
+    .bottom{flex-direction:column;gap:8px}
+  }
+  .site-footer{
+  position: relative;
+  padding: 32px 16px;
+  background: #0b0b0f;
+}
+.footer-right{
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+.powered-by-ilham img{
+  height: 100px;
+  display: block;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,.35));
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+/* 1) Image is always responsive */
+.powered-by-ilham img{
+  display:block;
+  height:100px;           /* desktop base */
+  width:auto;
+  max-width:40vw;         /* never exceed viewport on small screens */
+  object-fit:contain;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,.35));
+}
+
+/* 2) Keep it in the corner only on desktop */
+.footer-right{
+  position:absolute;
+  right:16px;
+  bottom:16px;
+}
+
+/* 3) On tablets & mobiles: center it below content, avoid overlap */
+@media (max-width: 900px){
+  .footer-right{
+    position:static;              /* no absolute overlap */
+    display:flex;
+    justify-content:center;
+    margin-top:16px;
+    padding-bottom:12px;
+  }
+  .powered-by-ilham img{
+    height:72px;                  /* smaller */
+    max-width:50vw;
+    margin:0 auto;
+  }
+}
+
+/* 4) Very small phones: even smaller, add spacing from social icons */
+@media (max-width: 480px){
+  .powered-by-ilham img{
+    height:56px;
+    max-width:60vw;
+  }
+  .social{ margin-bottom:12px; }  /* room for the logo below */
+}
+
+/* Safety: prevent horizontal scrolling caused by wide elements */
+html, body{ overflow-x:hidden; }
+
+
+</style>
+</head>
+<body>
+
+<footer class="site-footer">
+  <div class="wrap">
+
+    <!-- ======= Top red info boxes ======= -->
+    <section class="info-cards">
+      <div class="card">
+        <i class="fa-solid fa-location-dot"></i>
+        <div>
+          <h4>Address</h4>
+          <p>Doha – Qatar, Zone 39,street 808<br>
+              Building 39,Apartment no 9,Floor 2<br>
+             P.O. Box: 4216<br>
+             State of Qatar
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <i class="fa-regular fa-envelope"></i>
+        <div>
+          <h4>Email</h4>
+          <p><a href="mailto:info@terradtc.com" style="color:#eae8e8;text-decoration:none;">info@terradtc.com</a></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <i class="fa-solid fa-phone"></i>
+        <div>
+          <h4>Phone</h4>
+          <p>Phone: (+974) 31301602<br>
+             Mobile: (+974) 31301602<br>
+             Fax: (+974) 31301602
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= Main 3 columns ======= -->
+    <section class="footer-grid">
+      <div class="about">
+        <h3>About Us</h3>
+        <p>
+          We specialize in construction, decoration-related, and maintenance projects.
+          Our value is built on innovative methods and strict standards to complete
+          all projects, plus a strong commitment to health, safety, and environmental best practices.
+        </p>
+      </div>
+
+      <div class="links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="map">
+        <h3>Locate Us</h3>
+        <!-- replace the src with your Google Maps embed -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3445.349!2d51.531!3d25.286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sqa!4v1700000000000"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+
+    <!-- dotted divider + centered social -->
+    <hr class="divider">
+    <div class="social">
+      <a href="https://facebook.com/yourpage" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="mailto:info@terradtc.com" aria-label="Email">
+  <i class="fa-solid fa-envelope"></i>
+</a>
+      <a href="https://x.com/yourhandle" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+      <a href="https://instagram.com/yourhandle" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    
+  <!-- your footer content -->
+  <div class="footer-right">
+    <a class="powered-by-ilham" href="#" aria-label="Powered by ILHAM">
+      <img src="ilm.png" alt="Powered by ILHAM">
+    </a>
+  </div>
+
+
+
+    <!-- bottom bar -->
+    <div class="bottom">
+      <div>© 2025 ts-decor.com</div>
+      
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
